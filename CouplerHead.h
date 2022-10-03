@@ -6,6 +6,7 @@
 class CouplerHead
 {
 public:
+    CouplerHead();
     CouplerHead(Link &crank_link, Link &output_link, std::tuple<double, double> crank_top_point, std::tuple<double, double> output_top_point);
 
     std::tuple<double, double> move(std::tuple<double, double> crank_link_pos, std::tuple<double, double> output_link_pos, double dt);
@@ -13,6 +14,7 @@ public:
     std::tuple<double, double> getOutputPos();
     std::tuple<double, double> getCrankTopPos();
     std::tuple<double, double> getOutputTopPos();
+    std::tuple<std::tuple<double, double>, std::tuple<double, double>> getBaseCouplerPositions();
 
 private:
     double m;

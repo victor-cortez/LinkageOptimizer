@@ -2,6 +2,8 @@
 #include <tuple>
 #include "Link.h"
 
+Link::Link() {}
+
 Link::Link(Link &link)
 {
     this->past_link = link.past_link;

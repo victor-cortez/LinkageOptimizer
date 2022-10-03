@@ -5,6 +5,7 @@
 class Link
 {
 public:
+    Link();
     Link(Link &link);
     // Regular Link
     Link(Link &past_link, double mass, double im, double length);

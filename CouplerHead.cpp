@@ -23,6 +23,8 @@ constexpr auto operator+(const std::tuple<T1...> &t1, const std::tuple<T2...> &t
 
 // End of boilerplate code
 
+CouplerHead::CouplerHead() {}
+
 // crank_link is the reference
 CouplerHead::CouplerHead(Link &crank_link, Link &output_link, std::tuple<double, double> crank_top_point, std::tuple<double, double> input_top_point)
 {
@@ -97,4 +99,9 @@ std::tuple<double, double> CouplerHead::getCrankTopPos()
 std::tuple<double, double> CouplerHead::getOutputTopPos()
 {
     return this->output_top_point;
+}
+
+std::tuple<std::tuple<double, double>, std::tuple<double, double>> CouplerHead::getBaseCouplerPositions()
+{
+    return std::make_tuple(this->crank_point, this->output_point);
 }
