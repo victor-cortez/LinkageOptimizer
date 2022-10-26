@@ -1,1 +1,1 @@
-g++ -std=c++17 -O2 src/main.cpp src/Link.cpp src/CouplerHead.cpp src/FourBarMechanism.cpp src/Field.cpp  -Wall -o main
+g++ -std=c++17 -O2 -ffast-math src/main.cpp src/Link.cpp src/CouplerHead.cpp src/FourBarMechanism.cpp src/Field.cpp  -Wall -o main

@@ -23,7 +23,7 @@ int main()
     playing_field.addButtonPair({0, 0, hitbox_radius, 1, 1, hitbox_radius});
     playing_field.addButtonPair({0, 0, hitbox_radius, 1, 1, hitbox_radius});
 
-    std::ofstream myfile("example2ad.csv");
+    std::ofstream myfile("output/example2ad.csv");
     double min_angle = 3.1415 / 2 - 0.2;
     double max_angle = 3.1415 / 2 + 0.2;
     double angle_step = 0.001;

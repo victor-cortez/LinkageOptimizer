@@ -236,7 +236,7 @@ std::string FourBarMechanism::dumpState()
     // Set Fixed -Point Notation
     streamObj << std::fixed;
     // Set precision to 2 digits
-    streamObj << std::setprecision(4);
+    streamObj << std::setprecision(6);
     // Add doubles to stream
     streamObj << this->input_link.getTheta() << ",";
     streamObj << std::get<0>(this->input_link.getPos()) << ",";
