@@ -4,7 +4,7 @@ from matplotlib.animation import FuncAnimation
 import time
 
 video_name = "videos/" + time.strftime("%Y%m%d-%H%M%S") + "-linkage_video.mp4"
-data = pd.read_csv("example2ad.txt")
+data = pd.read_csv("example2ad.csv")
 show_locus = False
 
 plt.clf()
