@@ -10,7 +10,7 @@ public:
     // Regular Link
     Link(Link &past_link, double mass, double im, double length);
     // Regular Link
-    Link(std::tuple<double, double> pos, std::tuple<double, double> pos2, double mass, double im);
+    Link(std::tuple<double, double> pos, std::tuple<double, double> pos2, double linear_density);
     // Regular Link
     Link(double mass, double im, double length);
     // Ground Link
@@ -27,18 +27,21 @@ public:
     void setL(double l_value);
     double getL();
 
-    std::tuple<double, double> setTheta(double theta_value, double dt);
+    void setTheta(double theta_value, double dt);
     double getTheta();
     // Pos always refer to the closest connection to the crank link (on the left usually)
-    std::tuple<double, double> setPos(std::tuple<double, double> pos_value, double dt);
+    void setPos(std::tuple<double, double> pos_value, double dt);
     std::tuple<double, double> getPos();
 
     // Other joint (the right side)
-    std::tuple<double, double> setPos2(std::tuple<double, double> pos_value, double dt);
+    void setPos2(std::tuple<double, double> pos_value, double dt);
     std::tuple<double, double> getPos2();
 
     // Set both positions
-    std::tuple<double, double> setTwoPositions(std::tuple<double, double> pos_value, std::tuple<double, double> pos_value2, double dt);
+    void setTwoPositions(std::tuple<double, double> pos_value, std::tuple<double, double> pos_value2, double dt);
+
+    void setEnergy(double speed, double angular_speed);
+    double getEnergy();
 
 private:
     Link *past_link;
@@ -50,6 +53,8 @@ private:
     double im;
     double length;
     double angle;
+    double energy;
+    static constexpr double GRAVITY = 9.80665;
     bool is_ground;
 };
 #endif

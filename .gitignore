@@ -1,3 +1,4 @@
 .ipynb_checkpoints
 *.mp4
 videos
+.vscode

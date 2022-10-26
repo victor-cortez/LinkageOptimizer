@@ -1,1 +1,1 @@
-g++ -std=c++17 main.cpp Link.cpp CouplerHead.cpp FourBarMechanism.cpp  -Wall -o main
+g++ -std=c++17 -O2 src/main.cpp src/Link.cpp src/CouplerHead.cpp src/FourBarMechanism.cpp src/Field.cpp  -Wall -o main

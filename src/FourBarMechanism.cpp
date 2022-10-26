@@ -5,9 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
-#include "Link.h"
 #include "FourBarMechanism.h"
-#include "CouplerHead.h"
 
 // To print tuples
 template <class Ch, class Tr, class... Args>
@@ -26,13 +24,13 @@ auto &operator<<(std::basic_ostream<Ch, Tr> &os, std::tuple<Args...> const &t)
 class CirclesDoNotIntersect : public std::exception
 {
 private:
-    char *message;
+    std::string message;
 
 public:
-    CirclesDoNotIntersect(char *msg) : message(msg) {}
+    CirclesDoNotIntersect(std::string msg) : message(msg) {}
     char *what()
     {
-        return message;
+        return message.data();
     }
 };
 
@@ -68,9 +66,9 @@ std::optional<std::tuple<std::tuple<double, double>, std::tuple<double, double>>
     return std::make_tuple(std::make_tuple(ix1, iy1), std::make_tuple(ix2, iy2));
 }
 
-double calculateEnergySpent(Link &link, double speed, double angular_speed)
+double FourBarMechanism::getTotalEnergy()
 {
-    return (link.getM() * std::pow(speed, 2) / 2) + (link.getIM() * std::pow(angular_speed, 2) / 2);
+    return input_link.getEnergy() + output_link.getEnergy() + coupler_link.getEnergy() + coupler_head.getEnergy();
 }
 
 FourBarMechanism::FourBarMechanism(Link crank_link, Link in_coupler_link, Link in_output_link, CouplerHead in_coupler_head) : input_link(crank_link),
@@ -88,13 +86,13 @@ constexpr double det(const double matrix[3][3])
 class CouplerRootPointsAreColinear : public std::exception
 {
 private:
-    char *message;
+    std::string message;
 
 public:
-    CouplerRootPointsAreColinear(char *msg) : message(msg) {}
+    CouplerRootPointsAreColinear(std::string msg) : message(msg) {}
     char *what()
     {
-        return message;
+        return message.data();
     }
 };
 
@@ -131,10 +129,10 @@ constexpr std::tuple<double, double> getCircleCenter(const std::tuple<double, do
         {std::get<0>(a1), d1, 1},
         {std::get<0>(a2), d2, 1},
         {std::get<0>(a3), d3, 1}};
-    double Dz[3][3] = {
-        {std::get<0>(a1), std::get<1>(a1), d1},
-        {std::get<0>(a2), std::get<1>(a2), d2},
-        {std::get<0>(a3), std::get<1>(a3), d3}};
+    // double Dz[3][3] = {
+    // {std::get<0>(a1), std::get<1>(a1), d1},
+    // {std::get<0>(a2), std::get<1>(a2), d2},
+    // {std::get<0>(a3), std::get<1>(a3), d3}};
 
     // Now we calculate our coefficients
     double detD = det(D);
@@ -144,11 +142,11 @@ constexpr std::tuple<double, double> getCircleCenter(const std::tuple<double, do
     }
     double detDx = det(Dx);
     double detDy = det(Dy);
-    double detDz = det(Dz);
+    //  double detDz = det(Dz);
 
     double a = detDx / detD;
     double b = detDy / detD;
-    double c = detDz / detD;
+    // double c = detDz / detD;
 
     double x = -a / 2;
     double y = -b / 2;
@@ -173,15 +171,15 @@ constexpr std::tuple<std::tuple<double, double>, std::tuple<double, double>> Fou
     return std::make_tuple(crank_link_root, output_link_root);
 }
 
-FourBarMechanism::FourBarMechanism(CouplerHead coupler_head1, CouplerHead coupler_head2, CouplerHead coupler_head3)
+FourBarMechanism::FourBarMechanism(CouplerHead coupler_head1, CouplerHead coupler_head2, CouplerHead coupler_head3, double linear_density)
 {
     std::tuple<std::tuple<double, double>, std::tuple<double, double>> coupler_pos_1 = coupler_head1.getBaseCouplerPositions();
     std::tuple<std::tuple<double, double>, std::tuple<double, double>> coupler_pos_2 = coupler_head2.getBaseCouplerPositions();
     std::tuple<std::tuple<double, double>, std::tuple<double, double>> coupler_pos_3 = coupler_head3.getBaseCouplerPositions();
     auto [crank_link_root, output_link_root] = getLinkPositionsFromCouplers(coupler_pos_1, coupler_pos_2, coupler_pos_3);
-    input_link = Link(crank_link_root, std::get<0>(coupler_pos_1), 0, 0);
-    output_link = Link(std::get<1>(coupler_pos_1), output_link_root, 0, 0);
-    coupler_link = Link(std::get<0>(coupler_pos_1), std::get<1>(coupler_pos_1), 0, 0);
+    input_link = Link(crank_link_root, std::get<0>(coupler_pos_1), linear_density);
+    output_link = Link(std::get<1>(coupler_pos_1), output_link_root, linear_density);
+    coupler_link = Link(std::get<0>(coupler_pos_1), std::get<1>(coupler_pos_1), linear_density);
     coupler_head = coupler_head1;
 }
 
@@ -228,7 +226,7 @@ void FourBarMechanism::rotate(double angle, double dt)
 
 std::string FourBarMechanism::getDumpHeader()
 {
-    return std::string("theta,xi,yi,xc,yc,xo,yo,xb,yb,xct,yct,xot,yot\n");
+    return std::string("theta,xi,yi,xc,yc,xo,yo,xb,yb,xct,yct,xot,yot,energy");
 }
 
 std::string FourBarMechanism::dumpState()
@@ -252,7 +250,8 @@ std::string FourBarMechanism::dumpState()
     streamObj << std::get<0>(this->coupler_head.getCrankTopPos()) << ",";
     streamObj << std::get<1>(this->coupler_head.getCrankTopPos()) << ",";
     streamObj << std::get<0>(this->coupler_head.getOutputTopPos()) << ",";
-    streamObj << std::get<1>(this->coupler_head.getOutputTopPos()) << "\n";
+    streamObj << std::get<1>(this->coupler_head.getOutputTopPos()) << ",";
+    streamObj << getTotalEnergy();
     // Get string from output string stream
     return streamObj.str();
 }

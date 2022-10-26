@@ -1,1 +1,1 @@
-g++ -std=c++17 calc_roots.cpp FourBarMechanism.cpp Link.cpp CouplerHead.cpp  -Wall -o calc_roots
+g++ -std=c++17 -O2 src/calc_roots.cpp src/FourBarMechanism.cpp src/Link.cpp src/CouplerHead.cpp  -Wall -o calc_roots
