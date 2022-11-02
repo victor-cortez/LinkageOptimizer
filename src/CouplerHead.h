@@ -12,8 +12,8 @@ public:
     void move(std::tuple<double, double> crank_link_pos, std::tuple<double, double> output_link_pos, double dt);
     std::tuple<double, double> getCrankPos();
     std::tuple<double, double> getOutputPos();
-    std::tuple<double, double> getCrankTopPos();
-    std::tuple<double, double> getOutputTopPos();
+    std::tuple<double, double> getCrankTopPos() const;
+    std::tuple<double, double> getOutputTopPos() const;
     double getEnergy();
     std::tuple<std::tuple<double, double>, std::tuple<double, double>> getBaseCouplerPositions();
 

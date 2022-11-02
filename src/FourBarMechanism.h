@@ -18,6 +18,10 @@ public:
     double getTotalEnergy();
     std::string dumpState();
     std::string getDumpHeader();
+    const std::tuple<std::tuple<double, double>, std::tuple<double, double>> getInputLinkPositions() const;
+    const std::tuple<std::tuple<double, double>, std::tuple<double, double>> getCouplerLinkPositions() const;
+    const std::tuple<std::tuple<double, double>, std::tuple<double, double>> getOutputLinkPositions() const;
+    const std::tuple<std::tuple<double, double>, std::tuple<double, double>> getCouplerHeadTopPositions() const;
 
     static constexpr std::tuple<std::tuple<double, double>, std::tuple<double, double>> getLinkPositionsFromCouplers(
         const std::tuple<std::tuple<double, double>, std::tuple<double, double>> coupler_pos_1,

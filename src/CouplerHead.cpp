@@ -137,12 +137,12 @@ std::tuple<double, double> CouplerHead::getOutputPos()
     return this->output_point;
 }
 
-std::tuple<double, double> CouplerHead::getCrankTopPos()
+std::tuple<double, double> CouplerHead::getCrankTopPos() const
 {
     return this->crank_top_point;
 }
 
-std::tuple<double, double> CouplerHead::getOutputTopPos()
+std::tuple<double, double> CouplerHead::getOutputTopPos() const
 {
     return this->output_top_point;
 }

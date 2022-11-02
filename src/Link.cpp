@@ -74,12 +74,12 @@ void Link::setPos(std::tuple<double, double> pos_value, double dt)
     this->length = length_new;
 }
 
-std::tuple<double, double> Link::getPos()
+const std::tuple<double, double> Link::getPos() const
 {
     return this->position;
 }
 
-std::tuple<double, double> Link::getPos2()
+const std::tuple<double, double> Link::getPos2() const
 {
     return this->position2;
 }

@@ -31,11 +31,11 @@ public:
     double getTheta();
     // Pos always refer to the closest connection to the crank link (on the left usually)
     void setPos(std::tuple<double, double> pos_value, double dt);
-    std::tuple<double, double> getPos();
+    const std::tuple<double, double> getPos() const;
 
     // Other joint (the right side)
     void setPos2(std::tuple<double, double> pos_value, double dt);
-    std::tuple<double, double> getPos2();
+    const std::tuple<double, double> getPos2() const;
 
     // Set both positions
     void setTwoPositions(std::tuple<double, double> pos_value, std::tuple<double, double> pos_value2, double dt);

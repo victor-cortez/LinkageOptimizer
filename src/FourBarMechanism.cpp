@@ -255,3 +255,23 @@ std::string FourBarMechanism::dumpState()
     // Get string from output string stream
     return streamObj.str();
 }
+
+const std::tuple<std::tuple<double, double>, std::tuple<double, double>> FourBarMechanism::getInputLinkPositions() const
+{
+    return std::make_tuple(this->input_link.getPos(), this->input_link.getPos2());
+}
+
+const std::tuple<std::tuple<double, double>, std::tuple<double, double>> FourBarMechanism::getCouplerLinkPositions() const
+{
+    return std::make_tuple(this->coupler_link.getPos(), this->coupler_link.getPos2());
+}
+
+const std::tuple<std::tuple<double, double>, std::tuple<double, double>> FourBarMechanism::getOutputLinkPositions() const
+{
+    return std::make_tuple(this->output_link.getPos(), this->output_link.getPos2());
+}
+
+const std::tuple<std::tuple<double, double>, std::tuple<double, double>> FourBarMechanism::getCouplerHeadTopPositions() const
+{
+    return std::make_tuple(this->coupler_head.getCrankTopPos(), this->coupler_head.getOutputTopPos());
+}
