@@ -13,7 +13,7 @@ public:
     // Will generate the mechanism based on the positions of 3 coupler heads.
     // Input, coupler and output links will be generated automatically to fit the 3 positions.
     FourBarMechanism(CouplerHead coupler_head1, CouplerHead coupler_head2, CouplerHead coupler_head3, double linear_density);
-
+    FourBarMechanism(const FourBarMechanism &other);
     void rotate(double angle, double dt);
     double getTotalEnergy();
     std::string dumpState();

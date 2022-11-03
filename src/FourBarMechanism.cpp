@@ -183,6 +183,14 @@ FourBarMechanism::FourBarMechanism(CouplerHead coupler_head1, CouplerHead couple
     coupler_head = coupler_head1;
 }
 
+FourBarMechanism::FourBarMechanism(const FourBarMechanism &other)
+{
+    this->input_link = other.input_link;
+    this->output_link = other.output_link;
+    this->coupler_link = other.coupler_link;
+    this->coupler_head = other.coupler_head;
+}
+
 void FourBarMechanism::rotate(double angle, double dt)
 {
     if (std::abs(angle - this->input_link.getTheta()) < 0.00001)
