@@ -55,7 +55,7 @@ FourBarMechanism Optimizer::generate_random_mechanism()
     CouplerHead coupler_head = CouplerHead(input_link, output_link, couplertop_input_point, couplertop_output_point, linear_density);
     FourBarMechanism mechanism = FourBarMechanism(input_link, coupler_link, output_link, coupler_head);
     // Setting for default, pi/2 angle
-    mechanism.rotate(1.57079632679, 1);
+    // mechanism.rotate(1.57079632679, 1);
     return mechanism;
 }
 
@@ -86,7 +86,7 @@ FourBarMechanism Optimizer::generate_children(const FourBarMechanism &parent1, c
     Link output_link = Link(coupler_output_point, output_ground_point, linear_density);
     CouplerHead coupler_head = CouplerHead(input_link, output_link, couplertop_input_point, couplertop_output_point, linear_density);
     FourBarMechanism mechanism = FourBarMechanism(input_link, coupler_link, output_link, coupler_head);
-    mechanism.rotate(1.57079632679, 1);
+    // mechanism.rotate(1.57079632679, 1);
     return mechanism;
 }
 
@@ -107,7 +107,7 @@ int Optimizer::random_int(int lower_limit, int upper_limit)
     return keep_in_bounds(lower_limit + uniform_dist(random_engine) * (upper_limit - lower_limit), lower_limit, upper_limit);
 }
 
-int keep_in_bounds(int value, int lower_limit, int upper_limit)
+int Optimizer::keep_in_bounds(int value, int lower_limit, int upper_limit)
 {
     if (value < lower_limit)
     {
@@ -148,9 +148,11 @@ std::vector<std::tuple<FourBarMechanism, double>> Optimizer::evaluate_mechanisms
         // futures.push_back(std::async(std::launch::async, evaluate_chunk, std::vector<FourBarMechanism>(mechanisms.begin() + i, mechanisms.begin() + i + chunk_size), chunk_size, this->fitness_function));
         // Thread pool version
         futures.push_back(thread_pool.push(evaluate_chunk, std::vector<FourBarMechanism>(mechanisms.begin() + i, mechanisms.begin() + i + chunk_size), this->fitness_function));
+        std::cout << "Submitted chunk " << i / chunk_size << " of " << mechanisms.size() / chunk_size << std::endl;
     }
     // Waits for all threads to finish, including non-executed functions.
     thread_pool.stop(true);
+    std::cout << "All chunks evaluated" << std::endl;
     for (int i = 0; i < futures.size(); i++)
     {
         std::vector<std::tuple<FourBarMechanism, double>> evaluated_mechanisms_chunk = futures[i].get();
@@ -189,8 +191,12 @@ void Optimizer::optimize(int iterations)
                   << "\n";
         // Evaluates the current generation
         std::vector<FourBarMechanism> selected_mechanisms = select_mechanisms(evaluate_mechanisms(current_gen));
+        std::cout << "Selected " << selected_mechanisms.size() << " mechanisms."
+                  << "\n";
         // Replaces it with the next generation
         current_gen = generate_children_chunk(selected_mechanisms, generation_size);
+        std::cout << "Generated " << current_gen.size() << " children."
+                  << "\n";
     }
     this->current_best_generation = select_mechanisms(evaluate_mechanisms(current_gen));
 }

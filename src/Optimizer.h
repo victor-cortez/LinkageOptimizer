@@ -30,11 +30,11 @@ class Optimizer
 public:
     Optimizer(int generation_size, int chunk_size, int max_num_threads, std::function<double(FourBarMechanism)> fitness_function, GenerationLimits generation_limits);
     // Will optimize the generation for the given number of iterations
-    void Optimizer::optimize(int iterations);
+    void optimize(int iterations);
 
     // Will return the best mechanisms from the current generation
     std::vector<FourBarMechanism> getBestMechanisms(int num_mechanisms);
-    FourBarMechanism Optimizer::getBestMechanism();
+    FourBarMechanism getBestMechanism();
     // Simple setting functions
     void setLinearDensity(double linear_density);
     void setMutationRate(double mutation_rate);
@@ -63,6 +63,8 @@ private:
     // Random helping functions with speed optimization
     double random_double(double lower_limit, double upper_limit);
     int random_int(int lower_limit, int upper_limit);
+
+    int keep_in_bounds(int value, int lower_limit, int upper_limit);
 
     // Will generate children from parent mechanisms
     std::vector<FourBarMechanism> generate_children_chunk(const std::vector<FourBarMechanism> &parents, int chunk_size);

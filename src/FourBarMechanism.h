@@ -16,6 +16,7 @@ public:
     FourBarMechanism(const FourBarMechanism &other);
     void rotate(double angle, double dt);
     double getTotalEnergy();
+    double getAngle();
     std::string dumpState();
     std::string getDumpHeader();
     const std::tuple<std::tuple<double, double>, std::tuple<double, double>> getInputLinkPositions() const;

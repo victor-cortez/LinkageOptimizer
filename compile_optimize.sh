@@ -1,0 +1,1 @@
+g++ -std=c++17 -O2 src/optimize.cpp src/Link.cpp src/CouplerHead.cpp src/FourBarMechanism.cpp src/Field.cpp src/Optimizer.cpp -pthread  -Wall -o optimize

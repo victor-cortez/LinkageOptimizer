@@ -1,4 +1,15 @@
 #include "Field.h"
+#include <cmath>
+
+Field::Field() {}
+
+Field::Field(std::initializer_list<ButtonPair> button_pairs)
+{
+    for (ButtonPair button_pair : button_pairs)
+    {
+        this->ButtonPairs.push_back(button_pair);
+    }
+}
 
 void Field::addButtonPair(ButtonPair button_pair)
 {
@@ -37,7 +48,7 @@ bool Field::isButtonPairPressed(std::tuple<double, double> mech_pos_1, std::tupl
     double x2b = button_pair.x2;
     double y2b = button_pair.y2;
     double r2b = button_pair.r2;
-    if (abs(x1 - x1b) < r1b && abs(y1 - y1b) < r1b && abs(x2 - x2b) < r2b && abs(y2 - y2b) < r2b)
+    if (std::abs(x1 - x1b) < r1b && std::abs(y1 - y1b) < r1b && std::abs(x2 - x2b) < r2b && std::abs(y2 - y2b) < r2b)
     {
         return true;
     }

@@ -2,6 +2,7 @@
 #define FIELD_H
 #include <vector>
 #include <tuple>
+#include <initializer_list>
 
 // USE A R THAT IS R_BUTTON/SQRT(2) OF THE BUTTON RADIUS R_BUTTON
 // THIS IS TO MAKE THE SQUARE HITBOX BE FULLY INSIDE THE CIRCLE HITBOX
@@ -19,6 +20,9 @@ struct ButtonPair
 class Field
 {
 public:
+    Field();
+    Field(std::initializer_list<ButtonPair> button_pairs);
+
     void addButtonPair(ButtonPair button_pair);
 
     std::vector<ButtonPair> getButtonPairs();

@@ -34,6 +34,8 @@ public:
     }
 };
 
+// TODO
+// Recode this for copyright reasons
 std::optional<std::tuple<std::tuple<double, double>, std::tuple<double, double>>> intersectTwoCircles(double x1, double y1, double r1, double x2, double y2, double r2)
 {
     double centerdx = x1 - x2;
@@ -262,6 +264,11 @@ std::string FourBarMechanism::dumpState()
     streamObj << getTotalEnergy();
     // Get string from output string stream
     return streamObj.str();
+}
+
+double FourBarMechanism::getAngle()
+{
+    return this->input_link.getTheta();
 }
 
 const std::tuple<std::tuple<double, double>, std::tuple<double, double>> FourBarMechanism::getInputLinkPositions() const
